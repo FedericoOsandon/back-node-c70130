@@ -1,4 +1,23 @@
+const express       = require('express')
+const userRouter    = require('./routes/users.router.js')
+const productRouter = require('./routes/products.router.js')
+const pruebaRouter  = require('./routes/pruebas.router.js')
+const viewsRouter   = require('./routes/views.router.js')
+const sessionsRouter = require('./routes/sessions.router.js')
+const logger        = require('morgan')
+const { uploader }  = require('./utils/multer.js')
+const handlebars    = require('express-handlebars')
 
+const { Server  } = require('socket.io')
+const { connectDB } = require('./config/index.js')
+const { chatSocket } = require('./utils/chatSocket.js')
+const ProductsManagerFs = require('./managers/FileSystem/products.managers.js')
+// clase cookie session 
+const cookieParser = require('cookie-parser')
+const session      = require('express-session')
+// sessions file
+const FileStore = require('session-file-store')
+const MongoStore = require('connect-mongo')
 // passport
 const passport = require('passport')
 const { initializePassport } = require('./config/passport.config.js')
@@ -6,6 +25,18 @@ const { initializePassport } = require('./config/passport.config.js')
 const app = express()
 const PORT = process.env.PORT ||  8080
 
+const httpServer = app.listen(PORT, () => {
+    console.log('escuchando en el puerto: ', PORT)
+})
+// por convención lo llamamos io 
+const io = new Server(httpServer)
+
+const ioMiddleware = (io) => (req, res, next ) => {
+    req.io = io
+    next()
+}
+
+app.use(ioMiddleware(io))
 
 
 console.log(__dirname + '/public')
@@ -17,21 +48,21 @@ app.use(logger('dev'))
 app.use(cookieParser('palabrasecreta'))
 
 // conexión de session con db mongo
-app.use(session({
-    store: MongoStore.create({
-        mongoUrl: 'mongodb://127.0.0.1:27017/c70130',
-        // mongoOptions: {
-        //     useNewUrlParser: true,
-        //     useUnifiedTopology: true
-        // },
-        ttl: 1000000000000
-    }),
-    secret: 'secretcoder',
-    resave: true,
-    saveUninitialized: true
-}))
-initializePassport()
-app.use(passport.initialize())
+// app.use(session({
+//     store: MongoStore.create({
+//         mongoUrl: 'mongodb://127.0.0.1:27017/c70130',
+//         // mongoOptions: {
+//         //     useNewUrlParser: true,
+//         //     useUnifiedTopology: true
+//         // },
+//         ttl: 1000000000000
+//     }),
+//     secret: 'secretcoder',
+//     resave: true,
+//     saveUninitialized: true
+// }))
+// initializePassport()
+// app.use(passport.initialize())
 // app.use(passport.session())
 
 
@@ -58,8 +89,6 @@ app.use((error, req, res, next) => {
     console.log(error.stack)
     res.status(500).send('error de server')
 })
-
-
 
 // chatSocket(io)
 

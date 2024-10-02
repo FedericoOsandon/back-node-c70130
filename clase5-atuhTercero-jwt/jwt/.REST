@@ -1,0 +1,10 @@
+POST http://localhost:8080/api/sessions/login
+Content-Type: application/json
+
+{
+    "email":"fede@gmail.com",
+    "password": "123456"
+}
+###
+GET http://localhost:8080/api/sessions/current
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZjM1MWE5MWVjZDkzZTc4NWE5MzhhMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcyNzgyNjY1MiwiZXhwIjoxNzI3OTEzMDUyfQ.2YyaDQi--xIVnUQV01GHEdzuFNmlO65LdGO2wtdf3Dw
