@@ -1,0 +1,34 @@
+
+###
+POST http://localhost:8080/api/sessions/login
+Content-Type: application/json
+
+{
+    "email": "fedeint@gmail.com",
+    "password": "123456"
+}
+
+
+###
+POST http://localhost:8080/api/sessions/register
+Content-Type: application/json
+
+{
+    "first_name": "federico",
+    "last_name": "federico",
+    "email": "f@gmail.com",
+    "password": "123456"
+}
+###___________________________________________________
+GET http://localhost:8080/api/users
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZmYxZGYzMDhiMmRlMTQ1ZDY1ZDljYSIsImVtYWlsIjoiZmVkZWludEBnbWFpbC5jb20iLCJyb2xlIjpmYWxzZSwiaWF0IjoxNzI3OTk4NDM3LCJleHAiOjE3MjgwMDIwMzd9.swx4_i0W-WsxsdstU1OwmXNuWCIlmRGwL9PZXsojJ7E
+
+###
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+    "first_name": "federico",
+    "last_name": "el mejor",
+    "email": "f@gmail..com"
+}

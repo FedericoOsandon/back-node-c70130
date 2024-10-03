@@ -1,0 +1,4 @@
+-proteger las contraseña hash
+-instalar y utilizar jwt. 
+-login register vistas y sus endpoint render
+-endpint para login y register (post)
