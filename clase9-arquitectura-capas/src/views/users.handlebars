@@ -1,0 +1,14 @@
+<div>
+    <h1>Binvenido {{ user.full_name }}</h1>
+    {{#if isAdmin}}
+        {{#each users}}
+            <div>
+                <p>Nombre: {{this.full_name}} - email: {{this.email}}</p>
+                <hr>
+            </div>
+        {{/each}}
+    {{else}}
+        <h2>No tienes permisos para ver los usuarios</h2>
+    {{/if}}    
+</div>
+<script src="/assets/js/index.js"></script>
