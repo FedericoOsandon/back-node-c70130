@@ -1,0 +1,74 @@
+<h1>real time products</h1>
+
+        <h2>Formulario de productos</h2>
+<section class="container mt-5 w-100 d-flex justify-content-center align-items-center mb-5">
+    <form id="product-form" class="form-group w-50" >
+        <input type="text" name="title" class="form-control" placeholder="ingrese el nombre del producto">
+        <input type="text" name="thumbnail" class="form-control" placeholder="ingrese la url de la imagen">
+        <input type="text" name="description" class="form-control" placeholder="ingrese la descripción del producto">
+        <input type="text" name="price" class="form-control" placeholder="ingrese el precio del producto">
+        <input type="text" name="stock" class="form-control" placeholder="ingrese el stock del producto">
+        <button class="btn btn-outline-dark">enviar</button>
+    </form>
+</section>
+
+<div id="products-list" class="d-flex justify-content-center align-itmes-center gap-4">
+
+</div>
+
+
+
+<script src="/socket.io/socket.io.js" ></script>
+<script>
+    const socket = io()
+    socket.on('productsList', data => {
+        console.log(data)
+        const productListDiv = document.querySelector('#products-list')
+        let html = ''
+
+        data.forEach(product => {
+            html += `
+                <div class='card w-25'>
+                    <img src='${product.thumbnail}' class='card-image-top'>
+                    
+                    <div class='card-body'>
+                        <p>Nombre: ${product.title}</p>
+                        <p>Descripción: ${product.description}</p>
+                        <p>Stock: ${product.stock}</p>
+                        <p>Precio: ${product.price}</p>
+                    </div>
+                    <div class='card-footer'>
+                        <button class='btn btn-outline-dark w-100' id='${product.id}'  '>Eliminar</button>
+                    </div>
+                </div>
+            `
+        })
+        productListDiv.innerHTML = html
+    })
+
+    let form = document.querySelector('#product-form')
+    form.addEventListener('submit', evt => {
+        evt.preventDefault()
+        const title = form.elements.title.value
+        const price = form.elements.price.value
+        const description = form.elements.description.value
+        const stock = form.elements.stock.value
+        const thumbnail = form.elements.thumbnail.value
+
+        socket.emit('addProduct', {
+            title,
+            price: Number(price),
+            description,
+            stock: parseInt(stock),
+            thumbnail,
+        })
+        form.reset()
+    })
+
+    botones = querySelector.All('boton')
+    botones.forEach(boton => {
+        boton.addEventListener('click', evt =>{
+            boton.id
+        })
+    })
+</script>
